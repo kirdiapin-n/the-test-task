@@ -6,9 +6,9 @@ import {
   IReply,
 } from "@/graphql/types";
 
-const comments: Omit<IComment, "highlight_coords">[] = [];
-const replies: IReply[] = [];
-const highlightCoords: IHighlightCoords[] = [];
+export const comments: Omit<IComment, "highlight_coords">[] = [];
+export const replies: IReply[] = [];
+export const highlightCoords: IHighlightCoords[] = [];
 
 export const resolvers = {
   Query: {
