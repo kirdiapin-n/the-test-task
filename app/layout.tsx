@@ -1,4 +1,5 @@
-import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { ClientProviders } from "@/lib/ClientProviders";
+import { ColorSchemeScript } from "@mantine/core";
 import type { Metadata } from "next";
 import React from "react";
 
@@ -21,7 +22,7 @@ export default function RootLayout({
         <title>Create Next App</title>
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );
