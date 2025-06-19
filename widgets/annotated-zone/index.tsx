@@ -14,9 +14,14 @@ import { useApolloClient, useMutation } from "@apollo/client";
 import { Box, Modal } from "@mantine/core";
 import React, { useState } from "react";
 
-export default function AnnotatedZone({ children }: { children: React.ReactNode }) {
+type Props = {
+  children: React.ReactNode;
+  highlightCoords: IHighlightCoords[];
+};
+
+export default function AnnotatedZone({ children, highlightCoords }: Props) {
   const client = useApolloClient();
-  const [areas, setAreas] = useState<IHighlightCoords[]>([]);
+  const [areas, setAreas] = useState<IHighlightCoords[]>(highlightCoords || []);
   const [newArea, setNewArea] = useState<INewHighlightCoordsInput | null>(null);
 
   const [createComment] = useMutation<ICreateCommentMutation, ICreateCommentMutationVariables>(CREATE_COMMENT);

@@ -104,3 +104,13 @@ export type IGetCommentsQuery = {
     replies?: Array<{ id: string; author: string; text: string; created_at: string }> | null;
   }>;
 };
+
+export type IGetCommentCoordsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type IGetCommentCoordsQuery = {
+  comments: Array<{
+    id: string;
+    text: string;
+    highlight_coords: { id: string; comment_id: string; x: number; y: number; width: number; height: number };
+  }>;
+};

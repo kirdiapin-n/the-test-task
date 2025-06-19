@@ -16,3 +16,20 @@ export const GET_COMMENTS = gql`
     }
   }
 `;
+
+export const GET_COMMENT_COORDS = gql`
+  query GetCommentCoords {
+    comments {
+      id
+      text
+      highlight_coords {
+        id
+        comment_id
+        x
+        y
+        width
+        height
+      }
+    }
+  }
+`;
