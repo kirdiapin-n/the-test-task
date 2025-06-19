@@ -1,3 +1,4 @@
+import { ExampleComp } from "@/ui/ExampleComp";
 import AnnotatedZone from "@/widgets/annotated-zone";
 import CommentPanel from "@/widgets/comment-panel";
 import { AppShell, AppShellMain, AppShellNavbar } from "@mantine/core";
@@ -10,7 +11,9 @@ export default async function Home() {
       </AppShellNavbar>
 
       <AppShellMain>
-        <AnnotatedZone />
+        <AnnotatedZone>
+          <ExampleComp />
+        </AnnotatedZone>
       </AppShellMain>
     </AppShell>
   );
