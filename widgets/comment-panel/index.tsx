@@ -1,14 +1,37 @@
 "use client";
 
+import { CREATE_REPLY } from "@/graphql/mutations";
 import { GET_COMMENTS } from "@/graphql/queries";
-import { IGetCommentsQuery } from "@/graphql/types";
+import { ICreateReplyMutation, ICreateReplyMutationVariables, IGetCommentsQuery } from "@/graphql/types";
+import { CommentType } from "@/types";
+import CommentForm from "@/ui/CommentForm";
 import { getAuthorAndDate } from "@/widgets/comment-panel/utils";
-import { useQuery } from "@apollo/client";
-import { Box, ScrollArea, Text } from "@mantine/core";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { Box, Button, ScrollArea, Text } from "@mantine/core";
 import React from "react";
 
 export default function CommentPanel() {
+  const [replyId, setReplyId] = React.useState<string | null>(null);
   const { data, loading } = useQuery<IGetCommentsQuery>(GET_COMMENTS);
+
+  const [createReply] = useMutation<ICreateReplyMutation, ICreateReplyMutationVariables>(CREATE_REPLY);
+  const client = useApolloClient();
+
+  const handleReply = async ({ text, author }: CommentType) => {
+    if (!replyId) return;
+
+    await createReply({
+      variables: {
+        input: {
+          comment_id: replyId,
+          author,
+          text,
+        },
+      },
+    });
+
+    await client.refetchQueries({ include: ["GetComments"] });
+  };
 
   if (loading) return <p>Loading...</p>;
 
@@ -25,6 +48,10 @@ export default function CommentPanel() {
               {getAuthorAndDate(comment)}
             </Text>
 
+            <Button size="xs" variant="subtle" mt={4} onClick={() => setReplyId(comment.id)}>
+              reply
+            </Button>
+
             <Box ml="sm">
               {comment.replies?.map((reply) => (
                 <Box key={reply.id} pl="md" mt={4}>
@@ -36,6 +63,8 @@ export default function CommentPanel() {
                 </Box>
               ))}
             </Box>
+
+            {comment.id === replyId && <CommentForm onSubmitAction={handleReply} submitText="Send" />}
           </Box>
         ))}
       </Box>
