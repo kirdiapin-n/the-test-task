@@ -8,12 +8,13 @@ import {
   INewHighlightCoordsInput,
 } from "@/graphql/types";
 import { CommentType } from "@/types";
+import AnnotationArea from "@/ui/AnnotationArea";
 import CommentForm from "@/ui/CommentForm";
 import { useApolloClient, useMutation } from "@apollo/client";
-import { Modal } from "@mantine/core";
+import { Box, Modal } from "@mantine/core";
 import React, { useState } from "react";
 
-export default function AnnotatedZone() {
+export default function AnnotatedZone({ children }: { children: React.ReactNode }) {
   const client = useApolloClient();
   const [areas, setAreas] = useState<IHighlightCoords[]>([]);
   const [newArea, setNewArea] = useState<INewHighlightCoordsInput | null>(null);
@@ -39,7 +40,24 @@ export default function AnnotatedZone() {
 
   return (
     <>
-      {JSON.stringify(areas)}
+      <AnnotationArea onFinish={(newArea) => setNewArea(newArea)}>
+        <Box p="xs">{children}</Box>
+
+        {areas.map(({ id, width, height, x, y }) => (
+          <Box
+            key={id}
+            left={x}
+            top={y}
+            w={width}
+            h={height}
+            pos="absolute"
+            style={{
+              backgroundColor: "rgba(255, 0, 0, 0.2)",
+              border: "2px solid red",
+            }}
+          />
+        ))}
+      </AnnotationArea>
 
       <Modal opened={!!newArea} onClose={() => setNewArea(null)} title="New Comment">
         <CommentForm onSubmitAction={handleSubmit} submitText="Save" />
