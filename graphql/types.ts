@@ -76,6 +76,23 @@ export interface IReply {
   text: Scalars["String"]["output"];
 }
 
+export type ICreateCommentMutationVariables = Exact<{
+  input: INewCommentInput;
+}>;
+
+export type ICreateCommentMutation = {
+  createComment: {
+    id: string;
+    highlight_coords: { x: number; y: number; id: string; comment_id: string; width: number; height: number };
+  };
+};
+
+export type ICreateReplyMutationVariables = Exact<{
+  input: INewReplyInput;
+}>;
+
+export type ICreateReplyMutation = { createReply: { id: string } };
+
 export type IGetCommentsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type IGetCommentsQuery = {

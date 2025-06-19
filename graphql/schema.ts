@@ -7,7 +7,7 @@ export const typeDefs = gql`
     created_at: String!
     text: String!
     highlight_coords: HighlightCoords!
-    replies: [Reply!]!
+    replies: [Reply!]
   }
 
   type Reply {
